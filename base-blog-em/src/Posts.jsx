@@ -11,8 +11,8 @@ export function Posts() {
 
   // replace with useQuery
   const { data, isError, error, isLoading } = useQuery({
-    queryKey: ["posts"],
-    queryFn: fetchPosts,
+    queryKey: ["posts", currentPage],
+    queryFn: () => fetchPosts(currentPage),
   });
 
   if (isLoading) {
@@ -37,11 +37,11 @@ export function Posts() {
         ))}
       </ul>
       <div className="pages">
-        <button disabled onClick={() => { }}>
+        <button disabled={currentPage <= 1} onClick={() => { setCurrentPage((previousValue) => previousValue - 1) }}>
           Previous page
         </button>
         <span>Page {currentPage + 1}</span>
-        <button disabled onClick={() => { }}>
+        <button disabled={currentPage >= 10} onClick={() => { setCurrentPage((previousValue) => previousValue + 1) }}>
           Next page
         </button>
       </div>
